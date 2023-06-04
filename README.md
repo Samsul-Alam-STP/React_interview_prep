@@ -368,3 +368,61 @@ In this example, the `ThemeContext` is created using the `createContext` functio
 The `Toolbar` component consumes the context using the `useContext` hook, which allows it to access the theme value from the `ThemeContext`. The `Button` component, being a child of `Toolbar`, can also access the theme value without it being explicitly passed as a prop.
 
 React context is particularly useful when there are multiple layers of components that need access to shared data or when passing data through intermediate components becomes cumbersome. It helps to keep the codebase clean and avoids prop drilling.
+
+## Question 10: What is the purpose of React Router?
+
+### Answer:
+React Router is a popular routing library for React that enables the creation of single-page applications with multiple views. It provides a declarative way to handle client-side routing, allowing you to define different routes and their corresponding components.
+
+The main purpose of React Router is to ensure that different components are rendered based on the current URL or route. It allows you to navigate between different views without reloading the entire page, providing a seamless and responsive user experience.
+
+React Router provides several key components:
+
+1. `BrowserRouter`: This component uses HTML5 history API to handle routing and synchronizes the UI with the current URL.
+
+2. `Switch`: This component renders only the first matched route inside it, allowing exclusive rendering of routes.
+
+3. `Route`: This component defines a route mapping between a URL path and a corresponding component to be rendered.
+
+4. `Link`: This component creates a hyperlink to navigate between different routes.
+
+Here's an example that demonstrates the basic usage of React Router:
+
+```jsx
+import React from 'react';
+import { BrowserRouter, Switch, Route, Link } from 'react-router-dom';
+
+function Home() {
+  return <h1>Welcome to the Home page</h1>;
+}
+
+function About() {
+  return <h1>About Us</h1>;
+}
+
+function App() {
+  return (
+    <BrowserRouter>
+      <nav>
+        <ul>
+          <li>
+            <Link to="/">Home</Link>
+          </li>
+          <li>
+            <Link to="/about">About</Link>
+          </li>
+        </ul>
+      </nav>
+
+      <Switch>
+        <Route exact path="/" component={Home} />
+        <Route path="/about" component={About} />
+      </Switch>
+    </BrowserRouter>
+  );
+}
+```
+
+In this example, the `BrowserRouter` wraps the main `App` component, providing the routing functionality. The `Link` components are used to create navigation links to the respective routes. The `Switch` component ensures that only one route is rendered at a time. The `Route` components define the mapping between the URL path and the corresponding components to be rendered.
+
+React Router simplifies the implementation of navigation and routing in React applications, allowing developers to create multi-page experiences within a single page. It provides a solid foundation for building complex applications with different views and routes.
