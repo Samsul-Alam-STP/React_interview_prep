@@ -641,3 +641,501 @@ The choice between shallow rendering and full rendering depends on the specific 
 
 It's important to note that React Testing Library encourages testing from the user's perspective, focusing on the rendered output and user interactions rather than implementation details. It promotes testing components as users would interact with them, which aligns well with full rendering.
 
+## Question 15: What are React hooks and how are they used?
+
+### Answer:
+React hooks are functions that allow you to use state and other React features in functional components. They provide a way to add stateful logic and other React features to functional components without the need for class components.
+
+Hooks were introduced in React version 16.8 and have since become an integral part of React development. They aim to simplify component logic, reuse stateful logic across components, and provide a more concise and readable code structure.
+
+Here are some commonly used React hooks:
+
+1. **useState:** This hook allows you to add state to functional components. It returns an array with two elements: the current state value and a function to update the state. The initial state value is passed as an argument to useState.
+
+```jsx
+import React, { useState } from 'react';
+
+function Counter() {
+  const [count, setCount] = useState(0);
+
+  const increment = () => {
+    setCount(count + 1);
+  };
+
+  return (
+    <div>
+      <p>Count: {count}</p>
+      <button onClick={increment}>Increment</button>
+    </div>
+  );
+}
+```
+
+2. **useEffect:** This hook allows you to perform side effects in functional components. It accepts a callback function as its first argument, which will be executed after the component renders. You can also specify dependencies as the second argument to control when the effect is executed.
+
+```jsx
+import React, { useState, useEffect } from 'react';
+
+function ExampleComponent() {
+  const [data, setData] = useState(null);
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = () => {
+    // Fetch data from an API
+    setData(fetchedData);
+  };
+
+  return (
+    <div>
+      {/* JSX */}
+    </div>
+  );
+}
+```
+
+3. **useContext:** This hook allows you to access the value of a context in functional components. It accepts a context object as its argument and returns the current value of that context.
+
+```jsx
+import React, { useContext } from 'react';
+
+const ThemeContext = React.createContext('light');
+
+function ThemeButton() {
+  const theme = useContext(ThemeContext);
+
+  return (
+    <button style={{ background: theme }}>
+      Button
+    </button>
+  );
+}
+```
+
+These are just a few examples of the many hooks available in React. React hooks provide a powerful and flexible way to manage state, perform side effects, and access other React features in functional components.
+
+
+## Question 17: What is React Router and how does it work?
+
+### Answer:
+React Router is a popular library that allows you to handle routing in a React application. It provides a declarative way to define routes and navigate between different components or views based on the URL.
+
+React Router works by using a combination of components, such as `Router`, `Switch`, `Route`, and `Link`, to define the routing behavior in your application. Here's a breakdown of these key components and their roles:
+
+1. `<Router>`: This component is the root component of React Router. It provides the routing context for the entire application and is typically placed at the top level of your component hierarchy.
+
+```jsx
+import { BrowserRouter as Router } from 'react-router-dom';
+
+function App() {
+  return (
+    <Router>
+      {/* Your app components */}
+    </Router>
+  );
+}
+```
+
+2. `<Switch>`: The `Switch` component is used to render only the first `Route` or `Redirect` that matches the current location. It ensures that only one route is rendered at a time.
+
+```jsx
+import { Switch, Route } from 'react-router-dom';
+
+function App() {
+  return (
+    <Router>
+      <Switch>
+        <Route exact path="/" component={Home} />
+        <Route path="/about" component={About} />
+        <Route path="/contact" component={Contact} />
+      </Switch>
+    </Router>
+  );
+}
+```
+
+3. `<Route>`: The `Route` component defines a mapping between a URL path and a corresponding component to render. It specifies the component to render when the path matches the current URL.
+
+```jsx
+import { Route } from 'react-router-dom';
+
+function App() {
+  return (
+    <Router>
+      <Switch>
+        <Route exact path="/" component={Home} />
+        <Route path="/about" component={About} />
+        <Route path="/contact" component={Contact} />
+      </Switch>
+    </Router>
+  );
+}
+```
+
+4. `<Link>`: The `Link` component is used to create links that navigate to different routes within your application. It generates an `<a>` tag with the appropriate `href` attribute.
+
+```jsx
+import { Link } from 'react-router-dom';
+
+function Navigation() {
+  return (
+    <nav>
+      <ul>
+        <li>
+          <Link to="/">Home</Link>
+        </li>
+        <li>
+          <Link to="/about">About</Link>
+        </li>
+        <li>
+          <Link to="/contact">Contact</Link>
+        </li>
+      </ul>
+    </nav>
+  );
+}
+```
+
+React Router allows you to define routes with dynamic parameters, nested routes, route guards, and more. It provides a flexible and powerful way to handle navigation and routing in a React application.
+
+To use React Router, you need to install it as a dependency in your project using a package manager like npm or yarn. The most commonly used package is `react-router-dom`, which is tailored for web applications.
+
+
+## Question 18: What are React hooks and how are they used?
+
+### Answer:
+React hooks are functions that allow you to use state and other React features in functional components. They were introduced in React version 16.8 to provide a more concise and readable way to manage state and lifecycle events in functional components, without the need for class components.
+
+Hooks are used by importing them from the `react` package and invoking them within functional components. Some commonly used React hooks are:
+
+1. **useState:** This hook allows you to add state to functional components. It takes an initial state value as an argument and returns an array with two elements: the current state value and a function to update the state. Here's an example:
+
+```jsx
+import React, { useState } from 'react';
+
+function Counter() {
+  const [count, setCount] = useState(0);
+
+  const increment = () => {
+    setCount(count + 1);
+  };
+
+  return (
+    <div>
+      <p>Count: {count}</p>
+      <button onClick={increment}>Increment</button>
+    </div>
+  );
+}
+```
+
+2. **useEffect:** This hook allows you to perform side effects in functional components. It takes a callback function as its first argument, which will be executed after the component renders. You can also specify dependencies as the second argument to control when the effect is executed. Here's an example:
+
+```jsx
+import React, { useState, useEffect } from 'react';
+
+function ExampleComponent() {
+  const [data, setData] = useState(null);
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = () => {
+    // Fetch data from an API
+    setData(fetchedData);
+  };
+
+  return (
+    <div>
+      {/* JSX */}
+    </div>
+  );
+}
+```
+
+3. **useContext:** This hook allows you to access the value of a context in functional components. It takes a context object as its argument and returns the current value of that context. Here's an example:
+
+```jsx
+import React, { useContext } from 'react';
+
+const ThemeContext = React.createContext('light');
+
+function ThemeButton() {
+  const theme = useContext(ThemeContext);
+
+  return (
+    <button style={{ background: theme }}>
+      Button
+    </button>
+  );
+}
+```
+
+React hooks enable functional components to have local state, lifecycle methods, and access to context, making them more powerful and flexible. Hooks can be used in any functional component, but they cannot be used in regular JavaScript functions or class components.
+
+
+Question 19: What is the difference between prop drilling and context in React?
+
+Answer:
+Prop drilling and context are two different approaches to manage and pass data through the component tree in React. Here's an explanation of each:
+
+1. Prop Drilling:
+Prop drilling refers to the process of passing data from a higher-level component down to a lower-level component through intermediate components that do not need the data themselves. In prop drilling, the data is passed as props from one component to its child components, and potentially further down the component hierarchy.
+
+Prop drilling can become cumbersome and repetitive when the data needs to be passed through multiple layers of components. It can also make the component structure more tightly coupled, as components in the middle of the hierarchy need to be aware of and pass down props that they don't actually use.
+
+Here's an example to illustrate prop drilling:
+
+```jsx
+// Parent Component
+function ParentComponent() {
+  const data = { name: 'John', age: 30 };
+
+  return (
+    <div>
+      <ChildComponent data={data} />
+    </div>
+  );
+}
+
+// Child Component
+function ChildComponent({ data }) {
+  return (
+    <div>
+      <GrandchildComponent data={data} />
+    </div>
+  );
+}
+
+// Grandchild Component
+function GrandchildComponent({ data }) {
+  return (
+    <div>
+      <p>Name: {data.name}</p>
+      <p>Age: {data.age}</p>
+    </div>
+  );
+}
+```
+
+In this example, the `data` prop is passed from the `ParentComponent` to the `ChildComponent`, and then further down to the `GrandchildComponent`. The `GrandchildComponent` can access and use the data, even though the `ChildComponent` doesn't need it.
+
+2. Context:
+Context is a feature in React that allows you to create a global data store that can be accessed by any component in the component tree without the need for explicit prop passing. Context provides a way to share data and state between components that are not directly connected in the component hierarchy.
+
+Using context involves creating a context object using `React.createContext()` and providing a value to it. Components that need to access the context can consume it using `Context.Consumer` or `useContext` hook.
+
+Here's an example to illustrate context usage:
+
+```jsx
+// Create a context
+const MyContext = React.createContext();
+
+// Parent Component
+function ParentComponent() {
+  const data = { name: 'John', age: 30 };
+
+  return (
+    <MyContext.Provider value={data}>
+      <ChildComponent />
+    </MyContext.Provider>
+  );
+}
+
+// Child Component
+function ChildComponent() {
+  return (
+    <div>
+      <GrandchildComponent />
+    </div>
+  );
+}
+
+// Grandchild Component
+function GrandchildComponent() {
+  const data = useContext(MyContext);
+
+  return (
+    <div>
+      <p>Name: {data.name}</p>
+      <p>Age: {data.age}</p>
+    </div>
+  );
+}
+```
+
+In this example, the `ParentComponent` provides the `data` value through the `MyContext.Provider`. The `GrandchildComponent` can access the data using the `useContext` hook, without the need for intermediate components to pass it down explicitly.
+
+Context provides a more convenient way to share data across multiple components, especially when the component hierarchy is deep or when multiple components need access to the same data.
+
+It's important to note that context should be used judiciously and for global data that truly needs to be shared. Overusing context can lead to decreased component reusability and make the code harder to understand.
+
+
+## Question 19: What is the difference between prop drilling and context in React?
+
+### Answer:
+Prop drilling and context are two different approaches to manage and pass data through the component tree in React. Here's an explanation of each:
+
+1. **Prop Drilling:**
+Prop drilling refers to the process of passing data from a higher-level component down to a lower-level component through intermediate components that do not need the data themselves. In prop drilling, the data is passed as props from one component to its child components, and potentially further down the component hierarchy.
+
+Prop drilling can become cumbersome and repetitive when the data needs to be passed through multiple layers of components. It can also make the component structure more tightly coupled, as components in the middle of the hierarchy need to be aware of and pass down props that they don't actually use.
+
+Here's an example to illustrate prop drilling:
+
+```jsx
+// Parent Component
+function ParentComponent() {
+  const data = { name: 'John', age: 30 };
+
+  return (
+    <div>
+      <ChildComponent data={data} />
+    </div>
+  );
+}
+
+// Child Component
+function ChildComponent({ data }) {
+  return (
+    <div>
+      <GrandchildComponent data={data} />
+    </div>
+  );
+}
+
+// Grandchild Component
+function GrandchildComponent({ data }) {
+  return (
+    <div>
+      <p>Name: {data.name}</p>
+      <p>Age: {data.age}</p>
+    </div>
+  );
+}
+```
+
+In this example, the `data` prop is passed from the `ParentComponent` to the `ChildComponent`, and then further down to the `GrandchildComponent`. The `GrandchildComponent` can access and use the data, even though the `ChildComponent` doesn't need it.
+
+2. **Context:**
+Context is a feature in React that allows you to create a global data store that can be accessed by any component in the component tree without the need for explicit prop passing. Context provides a way to share data and state between components that are not directly connected in the component hierarchy.
+
+Using context involves creating a context object using `React.createContext()` and providing a value to it. Components that need to access the context can consume it using `Context.Consumer` or `useContext` hook.
+
+Here's an example to illustrate context usage:
+
+```jsx
+// Create a context
+const MyContext = React.createContext();
+
+// Parent Component
+function ParentComponent() {
+  const data = { name: 'John', age: 30 };
+
+  return (
+    <MyContext.Provider value={data}>
+      <ChildComponent />
+    </MyContext.Provider>
+  );
+}
+
+// Child Component
+function ChildComponent() {
+  return (
+    <div>
+      <GrandchildComponent />
+    </div>
+  );
+}
+
+// Grandchild Component
+function GrandchildComponent() {
+  const data = useContext(MyContext);
+
+  return (
+    <div>
+      <p>Name: {data.name}</p>
+      <p>Age: {data.age}</p>
+    </div>
+  );
+}
+```
+
+In this example, the `ParentComponent` provides the `data` value through the `MyContext.Provider`. The `GrandchildComponent` can access the data using the `useContext` hook, without the need for intermediate components to pass it down explicitly.
+
+Context provides a more convenient way to share data across multiple components, especially when the component hierarchy is deep or when multiple components need access to the same data.
+
+It's important to note that context should be used judiciously and for global data that truly needs to be shared. Overusing context can lead to decreased component reusability and make the code harder to understand.
+
+
+
+## Question 20: How does React handle forms and form inputs?
+
+### Answer:
+In React, handling forms and form inputs involves utilizing controlled components. Controlled components are components where the form data is controlled by React through state, rather than the DOM.
+
+Here's how React handles forms and form inputs:
+
+1. **Input State Management:**
+To manage form input data, you typically define a state variable to hold the input value. You also provide an event handler function that updates the state whenever the input value changes.
+
+```jsx
+import React, { useState } from 'react';
+
+function MyForm() {
+  const [inputValue, setInputValue] = useState('');
+
+  const handleChange = (event) => {
+    setInputValue(event.target.value);
+  };
+
+  return (
+    <form>
+      <input type="text" value={inputValue} onChange={handleChange} />
+      <button type="submit">Submit</button>
+    </form>
+  );
+}
+```
+
+In this example, the `inputValue` state variable holds the value of the input field, and the `handleChange` function is called whenever the input value changes.
+
+2. **Controlled Components:**
+To make the form input a controlled component, you set the `value` prop of the input element to the state variable and provide the event handler function through the `onChange` prop.
+
+By doing this, React ensures that the input value always reflects the value stored in the state, and any changes to the input trigger an update to the state.
+
+3. **Handling Form Submission:**
+When the form is submitted, you can handle the submission event by providing an event handler function to the `onSubmit` prop of the form element.
+
+```jsx
+import React, { useState } from 'react';
+
+function MyForm() {
+  const [inputValue, setInputValue] = useState('');
+
+  const handleChange = (event) => {
+    setInputValue(event.target.value);
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    // Perform form submission logic
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <input type="text" value={inputValue} onChange={handleChange} />
+      <button type="submit">Submit</button>
+    </form>
+  );
+}
+```
+
+In this example, the `handleSubmit` function is called when the form is submitted. The `event.preventDefault()` prevents the default form submission behavior, allowing you to handle the submission logic within the function.
+
+By using controlled components and managing the input data through state, React provides a reliable and predictable way to handle forms and form inputs. It allows you to easily access and manipulate form data, validate inputs, and perform form submission actions.
+
