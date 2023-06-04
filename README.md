@@ -255,3 +255,116 @@ class Timer extends React.Component {
 In this example, the `Timer` component uses the `componentDidMount` method to start a timer when the component is mounted. The `componentDidUpdate` method is used to log the updated time value whenever it changes. The `componentWillUnmount` method is used to clear the timer before the component is unmounted.
 
 **Note: React 17 introduced new lifecycle methods and deprecates some existing ones. If you're using React 16 or earlier, there are additional lifecycle methods like `componentWillMount` and `componentWillUpdate` that are still valid but have been deprecated in React 17 and later versions.**
+
+
+## Question 7: What are React hooks?
+
+### Answer:
+React hooks are functions that allow you to use state and other React features in functional components. They were introduced in React 16.8 as a way to write stateful logic and reuse code in functional components without using class components.
+
+The most commonly used hook is the `useState` hook, which allows you to add state to a functional component. It returns an array with two elements: the current state value and a function to update that state. Hooks must be called at the top level of the component, not inside loops, conditions, or nested functions.
+
+Here's an example of using the `useState` hook:
+
+```jsx
+import React, { useState } from 'react';
+
+function Counter() {
+  const [count, setCount] = useState(0);
+
+  const incrementCount = () => {
+    setCount(prevCount => prevCount + 1);
+  };
+
+  return (
+    <div>
+      <p>Count: {count}</p>
+      <button onClick={incrementCount}>Increment</button>
+    </div>
+  );
+}
+```
+
+In this example, the `useState` hook is used to add state to the `Counter` component. The `count` state is initialized with a value of 0, and the `setCount` function is used to update the state. The `incrementCount` function is a callback for the button's `onClick` event, which increments the `count` state when the button is clicked.
+
+React hooks also provide other built-in hooks, such as `useEffect`, `useContext`, and `useReducer`, which allow you to manage side effects, access context, and handle more complex state management scenarios, respectively.
+
+Hooks have significantly simplified the development process in React by enabling functional components to have local state and lifecycle behavior, reducing the need for class components in many cases.
+
+## Question 8: What is the significance of the "key" prop in React?
+
+### Answer:
+The "key" prop is a special attribute in React that helps identify individual components in a list or iterable. It is used by React to efficiently update and reconcile the component tree when new elements are added, removed, or rearranged within a list.
+
+When rendering a list of components, React needs a way to differentiate between them to know which components need to be updated. The "key" prop provides a unique identifier for each component within a list, allowing React to optimize the rendering process.
+
+The "key" prop should be a stable and unique value within the list. It helps React determine if a component has changed, moved, or needs to be re-rendered. When a component's "key" changes, React will treat it as a new component and re-mount it, losing any existing state.
+
+Here's an example that demonstrates the usage of the "key" prop in a list:
+
+```jsx
+import React from 'react';
+
+function TodoList({ todos }) {
+  return (
+    <ul>
+      {todos.map(todo => (
+        <li key={todo.id}>{todo.text}</li>
+      ))}
+    </ul>
+  );
+}
+```
+
+In this example, the `TodoList` component receives an array of `todos` as a prop. When rendering the list, each `todo` item is assigned a "key" using the `todo.id` value. This ensures that each todo item has a unique identifier within the list.
+
+It's important to note that the "key" prop should be specified directly on the component that is being iterated, such as the `<li>` element in this case. Assigning the "key" prop to a parent container or a wrapper component will not provide the desired optimizations.
+
+By using the "key" prop correctly, React can efficiently update and reorder the list when new items are added or removed, resulting in improved performance and a better user experience.
+
+## Question 9: What is the purpose of React context?
+
+### Answer:
+React context is a feature that allows data to be passed down through the component tree without the need for explicit props drilling. It provides a way to share data between components that are not directly connected through the parent-child relationship.
+
+Context consists of two main components: the `Provider` and the `Consumer`. The `Provider` component is responsible for providing the data, while the `Consumer` component is used to consume that data anywhere within the component tree.
+
+Here's an example that demonstrates the usage of React context:
+
+```jsx
+import React, { createContext, useContext } from 'react';
+
+// Create a context
+const ThemeContext = createContext();
+
+// Parent component as the provider
+function App() {
+  return (
+    <ThemeContext.Provider value="dark">
+      <Toolbar />
+    </ThemeContext.Provider>
+  );
+}
+
+// Child component consuming the context
+function Toolbar() {
+  const theme = useContext(ThemeContext);
+
+  return (
+    <div>
+      <Button theme={theme} />
+    </div>
+  );
+}
+
+// Grandchild component using the context value
+function Button({ theme }) {
+  return <button className={theme}>Click me</button>;
+}
+```
+
+In this example, the `ThemeContext` is created using the `createContext` function. The `App` component serves as the provider of the context, wrapping the `Toolbar` component with the `ThemeContext.Provider`. The `value` prop of the provider specifies the data to be shared, in this case, the theme value of "dark".
+
+The `Toolbar` component consumes the context using the `useContext` hook, which allows it to access the theme value from the `ThemeContext`. The `Button` component, being a child of `Toolbar`, can also access the theme value without it being explicitly passed as a prop.
+
+React context is particularly useful when there are multiple layers of components that need access to shared data or when passing data through intermediate components becomes cumbersome. It helps to keep the codebase clean and avoids prop drilling.
