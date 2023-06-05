@@ -1,5 +1,9 @@
 # React Interview Questions and Answers
 
+<div align="center">
+  <h2> General Questions</h2>
+</div>
+
 ## Question 1: What is React?
 
 ### Answer:
@@ -2384,3 +2388,909 @@ The key difference between `createElement` and `cloneElement` is that `createEle
 It's worth noting that `createElement` is typically used when writing JSX code, as JSX transpiles to calls to `createElement` under the hood. On the other hand, `cloneElement` is a method explicitly provided by React for manipulating existing elements.
 
 
+Question 51: What is Lifting State Up in React?
+
+Answer:
+Lifting State Up is a pattern in React where you move the state from a child component to its parent component. By doing so, you can share and manipulate the state between multiple child components and keep the state in a common ancestor.
+
+The main motivation behind Lifting State Up is to create a single source of truth for the shared state. Instead of each child component managing its own state independently, the parent component becomes responsible for managing the state and passing it down to the child components via props.
+
+Here's an example to illustrate the concept of Lifting State Up:
+
+```jsx
+function ParentComponent() {
+  const [count, setCount] = useState(0);
+
+  const incrementCount = () => {
+    setCount(count + 1);
+  };
+
+  return (
+    <div>
+      <ChildComponent count={count} incrementCount={incrementCount} />
+    </div>
+  );
+}
+
+function ChildComponent({ count, incrementCount }) {
+  return (
+    <div>
+      <p>Count: {count}</p>
+      <button onClick={incrementCount}>Increment</button>
+    </div>
+  );
+}
+```
+
+In this example, the `ParentComponent` manages the state `count` using the `useState` hook. The state value and the `incrementCount` function are passed down to the `ChildComponent` as props. The `ChildComponent` receives the `count` prop to display the value and the `incrementCount` prop to update the count when the button is clicked.
+
+By lifting the state up to the parent component, any changes to the state will be reflected in all child components that receive the state as props. This ensures that all child components stay synchronized and have access to the same state value.
+
+Lifting State Up promotes a more predictable and maintainable data flow in your React application, especially when multiple components need access to the same state or when you need to perform state updates based on interactions between different components.
+
+
+Question 52: What are the different phases of the component lifecycle in React?
+
+Answer:
+In React, the component lifecycle consists of several phases that a component goes through from its creation to its removal from the DOM. These phases allow you to hook into different stages of a component's lifecycle and perform certain actions or implement specific behavior. The component lifecycle can be divided into three main phases:
+
+1. Mounting:
+   - `constructor()`: This is the first method called when a component is created. It is used for initializing state and binding event handlers.
+   - `static getDerivedStateFromProps()`: This method is called right before rendering and allows you to update the component's state based on changes in props.
+   - `render()`: This method is responsible for rendering the component's JSX representation.
+   - `componentDidMount()`: This method is called after the component has been mounted in the DOM. It is used for performing side effects, such as fetching data from an API or subscribing to external events.
+
+2. Updating:
+   - `static getDerivedStateFromProps()`: This method is also called during the updating phase, similar to the mounting phase.
+   - `shouldComponentUpdate()`: This method allows you to control whether the component should re-render or not. It is used for performance optimization by preventing unnecessary re-renders.
+   - `render()`: The render method is called again to update the component's JSX representation.
+   - `componentDidUpdate()`: This method is called after the component has been updated in the DOM. It is used for performing side effects or handling updates based on prop or state changes.
+
+3. Unmounting:
+   - `componentWillUnmount()`: This method is called right before the component is removed from the DOM. It is used for cleaning up resources, such as cancelling timers or removing event listeners.
+
+In addition to these main lifecycle methods, React also provides other methods for handling specific scenarios or edge cases, such as error handling (`componentDidCatch()`) and interacting with the DOM (`getSnapshotBeforeUpdate()`).
+
+It's important to note that with the introduction of React Hooks, some of these lifecycle methods, such as `componentDidMount` and `componentDidUpdate`, can be replaced with equivalent functionality using hooks like `useEffect`.
+
+Understanding the component lifecycle helps you manage and control the behavior of your components at different stages. It allows you to handle initialization, updates, and cleanup operations effectively.
+
+
+Question 53: What are the lifecycle methods of React?
+
+Answer:
+React provides several lifecycle methods that allow you to hook into different stages of a component's lifecycle. However, with the introduction of React Hooks, some of these lifecycle methods are considered legacy and have been replaced by equivalent functionality using hooks. Here are the commonly used lifecycle methods in React:
+
+1. Mounting Phase:
+   - `constructor()`: This method is called when a component is being initialized. It is used for setting up the initial state and binding event handlers.
+   - `static getDerivedStateFromProps()`: This static method is called right before rendering and allows you to update the state based on changes in props.
+   - `render()`: This method is responsible for rendering the component's JSX representation.
+   - `componentDidMount()`: This method is called after the component has been mounted in the DOM. It is used for performing side effects, such as fetching data from an API or subscribing to external events.
+
+2. Updating Phase:
+   - `static getDerivedStateFromProps()`: This method is also called during the updating phase, similar to the mounting phase.
+   - `shouldComponentUpdate()`: This method is used to control whether the component should re-render or not. It is used for performance optimization.
+   - `render()`: The render method is called again to update the component's JSX representation.
+   - `getSnapshotBeforeUpdate()`: This method is called right before the changes are committed to the DOM. It allows you to capture some information from the DOM before it is potentially changed.
+   - `componentDidUpdate()`: This method is called after the component has been updated in the DOM. It is used for performing side effects or handling updates based on prop or state changes.
+
+3. Unmounting Phase:
+   - `componentWillUnmount()`: This method is called right before the component is unmounted from the DOM. It is used for cleaning up resources, such as timers or event listeners.
+
+4. Error Handling:
+   - `componentDidCatch()`: This method is called when an error occurs during rendering in the component's tree. It is used for error handling and displaying fallback UI.
+
+It's important to note that with React Hooks, you can achieve similar functionality as these lifecycle methods using hooks like `useState`, `useEffect`, `useContext`, etc.
+
+Remember that some lifecycle methods are considered legacy and may not be necessary in modern React applications. It's recommended to use hooks and functional components whenever possible.
+
+
+Question 54: What are Higher-Order Components (HOCs)?
+
+Answer:
+Higher-Order Components (HOCs) are a pattern in React that allows you to reuse component logic by wrapping a component with a function that returns a new enhanced component. HOCs are not part of the React API, but rather a design pattern made possible by the compositional nature of React components.
+
+The basic idea of HOCs is to take an existing component and enhance it with additional capabilities or behavior. This pattern promotes reusability and separation of concerns by isolating specific functionality into separate HOCs.
+
+Here's an example of a Higher-Order Component that adds a "loading" behavior to a component:
+
+```jsx
+function withLoading(Component) {
+  return function WithLoading(props) {
+    const { isLoading, ...rest } = props;
+
+    if (isLoading) {
+      return <div>Loading...</div>;
+    }
+
+    return <Component {...rest} />;
+  };
+}
+
+// Usage:
+const MyComponent = (props) => {
+  // Component logic
+};
+
+const EnhancedComponent = withLoading(MyComponent);
+```
+
+In this example, the `withLoading` function is a Higher-Order Component that takes a component (`Component`) as an argument and returns a new component (`WithLoading`). The returned component renders a loading message if the `isLoading` prop is true, otherwise, it renders the original component with the remaining props.
+
+By wrapping the `MyComponent` with the `withLoading` HOC, we enhance it with the loading behavior. The resulting `EnhancedComponent` can be used just like any other component.
+
+HOCs can be used to add common functionalities such as authentication, data fetching, logging, or any other cross-cutting concerns to multiple components without duplicating code. They offer a way to encapsulate and share common logic across different parts of your application.
+
+It's worth noting that with the introduction of React Hooks, you can achieve similar functionality as HOCs using custom hooks. Hooks provide a more straightforward and declarative way to reuse component logic within functional components.
+
+
+Question 55: How to create a props proxy for an HOC (Higher-Order Component)?
+
+Answer:
+When creating a Higher-Order Component (HOC), you may want to pass additional props to the wrapped component while preserving the existing props. This can be achieved by creating a props proxy for the HOC.
+
+Here's an example of how you can create a props proxy for an HOC:
+
+```jsx
+function withPropsProxy(Component) {
+  return function WithPropsProxy(props) {
+    const additionalProps = {
+      // Additional props to be passed to the wrapped component
+      // ...
+    };
+
+    // Merge the additional props with the existing props
+    const mergedProps = { ...props, ...additionalProps };
+
+    return <Component {...mergedProps} />;
+  };
+}
+
+// Usage:
+const MyComponent = (props) => {
+  // Component logic
+};
+
+const EnhancedComponent = withPropsProxy(MyComponent);
+```
+
+In this example, the `withPropsProxy` HOC takes a component (`Component`) as an argument and returns a new component (`WithPropsProxy`). The `WithPropsProxy` component creates an object `additionalProps` that contains the additional props you want to pass to the wrapped component.
+
+By merging the `additionalProps` with the existing `props` using the spread operator (`...`), you create a new object `mergedProps` that contains both the original props and the additional props. Finally, the wrapped component (`Component`) is rendered with the `mergedProps`.
+
+The props proxy pattern allows you to extend the props of a component without modifying its implementation. It enables you to inject new props or override existing props based on your specific requirements.
+
+Props proxies can be useful when you want to add common functionality or behaviors to multiple components while allowing them to retain their own set of props.
+
+
+Question 56: What is context in React?
+
+Answer:
+Context is an experimental feature in React that allows you to share data between components without passing props manually through every level of the component tree. It provides a way to access global or shared data by creating a "context" object that can be accessed by any component within its tree.
+
+With context, you can define data at the top level of your component tree and make it available to any component that needs it, regardless of the component's depth in the tree.
+
+Here's an example of how you can create and use context in React:
+
+1. Create a context object using the `createContext()` function:
+
+```jsx
+const MyContext = React.createContext();
+```
+
+2. Wrap your component tree with a `MyContext.Provider` component and provide a value to be shared:
+
+```jsx
+<MyContext.Provider value={/* shared value */}>
+  {/* Your component tree */}
+</MyContext.Provider>
+```
+
+3. Access the shared value in any component within the context using `MyContext.Consumer` or `useContext()` hook:
+
+```jsx
+<MyContext.Consumer>
+  {(value) => (
+    /* Render component using the shared value */
+  )}
+</MyContext.Consumer>
+```
+or
+```jsx
+const value = useContext(MyContext);
+```
+
+By using context, you can avoid "prop drilling" where props are passed through multiple levels of components. It provides a cleaner and more efficient way to share data that is needed by many components within a React application.
+
+It's important to note that context should be used judiciously, as excessive use of context can make your component tree more complex and harder to understand. Context is best suited for sharing data that is truly global or shared by a significant number of components.
+
+
+Question 57: What is the `children` prop in React?
+
+Answer:
+In React, the `children` prop is a special prop that allows you to pass components, elements, or text as children to a parent component. It is a built-in prop that is automatically passed by React when you use opening and closing tags in JSX.
+
+Here's an example to illustrate how the `children` prop works:
+
+```jsx
+const ParentComponent = ({ children }) => {
+  return (
+    <div>
+      {/* Render children prop */}
+      {children}
+    </div>
+  );
+};
+
+const App = () => {
+  return (
+    <ParentComponent>
+      {/* Pass components, elements, or text as children */}
+      <h1>Hello, World!</h1>
+      <p>This is the child component.</p>
+    </ParentComponent>
+  );
+};
+```
+
+In this example, the `ParentComponent` receives the `children` prop as a parameter and renders it within the `<div>` element. In the `App` component, the `<h1>` and `<p>` elements are passed as children to the `ParentComponent`.
+
+The `children` prop allows you to compose components and pass dynamic content to them. It enables you to create reusable parent components that can accept different children components, elements, or text content.
+
+It's worth noting that the `children` prop is not limited to JSX elements. It can also accept strings, numbers, or functions as children. Additionally, you can access and manipulate the `children` prop using the `React.Children` utility functions provided by React.
+
+If a component does not have any explicit opening and closing tags in JSX, the `children` prop will be `undefined`. Therefore, it's important to handle the case where the `children` prop is not provided.
+
+
+Question 58: How to write comments in React?
+
+Answer:
+In React, you can write comments using JavaScript's single-line and multi-line comment syntax. However, there is a slight difference when writing comments within JSX code.
+
+To write comments within JSX code, you need to use curly braces (`{}`) to enclose the comment, and then use JavaScript's comment syntax within the curly braces.
+
+Here are examples of how to write comments in React:
+
+1. Single-line comment:
+
+```jsx
+{/* This is a single-line comment */}
+```
+
+2. Multi-line comment:
+
+```jsx
+{/*
+  This is a multi-line comment
+  Line 2
+  Line 3
+*/}
+```
+
+When rendering JSX, any comment within curly braces (`{}`) is treated as a JavaScript expression. The comment is not rendered in the resulting HTML markup and does not affect the output of the component.
+
+It's important to note that while comments can be helpful for code documentation and readability, you should use them judiciously and ensure that they don't clutter the code unnecessarily.
+
+
+Question 59: What is the purpose of using `super` constructor with `props` argument in React?
+
+Answer:
+In React, when creating a class component, the `super` keyword is used to call the constructor of the parent class, which in this case is `React.Component`. The `super(props)` statement ensures that the parent class constructor is executed, allowing the component to initialize properly and have access to the `props` object.
+
+The primary purpose of using `super(props)` in the constructor is to enable the component to access and utilize the `props` object within its own constructor. By passing `props` to the `super` constructor, the `props` object is set up and made available to the component.
+
+Here's an example of a class component with the `super` constructor:
+
+```jsx
+class MyComponent extends React.Component {
+  constructor(props) {
+    super(props);
+    // Other component initialization code
+  }
+
+  render() {
+    // Component rendering logic
+  }
+}
+```
+
+In this example, the `super(props)` statement is called within the constructor of the `MyComponent` class. This ensures that the parent class constructor is invoked and the `props` object is properly initialized.
+
+Without calling `super(props)`, the component's constructor would not have access to the `props` object, which could lead to issues when trying to access or use `props` within the constructor or other class methods.
+
+It's important to note that starting from React version 16.8, functional components and hooks have become the preferred way to write React components. With functional components, you don't need to use `super` or a constructor to access `props`, as `props` are passed as a parameter to the component function.
+
+
+Question 60: What is reconciliation in React?
+
+Answer:
+Reconciliation is the process by which React updates the user interface (UI) to reflect the changes in the component tree. When the state or props of a component change, React compares the new component structure with the previous one and determines what updates need to be applied to the actual DOM.
+
+The reconciliation process is responsible for efficiently updating the UI and ensuring that only the necessary changes are applied, minimizing the impact on performance. React accomplishes this by performing a virtual representation of the component tree called the Virtual DOM.
+
+Here's an overview of how the reconciliation process works:
+
+1. When a component's state or props change, React creates a new virtual representation of the updated component tree, known as the new Virtual DOM.
+
+2. React then compares the new Virtual DOM with the previous Virtual DOM, examining the differences between the two structures.
+
+3. Based on the differences identified during the comparison, React generates a minimal set of changes, known as the "diff," which represents the updates needed to transform the previous DOM state into the new desired state.
+
+4. Finally, React applies the diff to the actual DOM, efficiently updating only the necessary parts of the UI to reflect the changes.
+
+By performing reconciliation, React optimizes the update process and ensures that the UI remains in sync with the component's state and props. This approach eliminates the need to manually update the DOM and provides a more declarative and efficient way to build user interfaces.
+
+
+Question 61: How to set state with a dynamic key name in React?
+
+Answer:
+In React, you can set the state with a dynamic key name by using computed property names. Computed property names allow you to use an expression inside square brackets (`[]`) to dynamically define the property name.
+
+Here's an example of setting the state with a dynamic key name:
+
+```jsx
+class MyComponent extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      // Initial state
+      dynamicKey: '',
+    };
+  }
+
+  handleInputChange = (event) => {
+    const { name, value } = event.target;
+    this.setState({
+      [name]: value,
+    });
+  };
+
+  render() {
+    const { dynamicKey } = this.state;
+
+    return (
+      <div>
+        <input
+          type="text"
+          name="dynamicKey"
+          value={dynamicKey}
+          onChange={this.handleInputChange}
+        />
+      </div>
+    );
+  }
+}
+```
+
+In this example, the `handleInputChange` method is responsible for updating the state with a dynamic key name. The `name` property of the input field is used as the dynamic key name, and the `value` of the input field is assigned to that key in the state object.
+
+By using `[name]` within the `setState` method, the state is dynamically updated with the key name based on the value of the `name` property.
+
+This approach is useful when you have a form or any other scenario where you want to set the state dynamically based on user input or any other variable condition.
+
+
+Question 62: What would be the common mistake of a function being called every time the component renders?
+
+Answer:
+One common mistake in React is unintentionally invoking a function every time the component renders, which can lead to performance issues or unexpected behavior. This mistake often occurs when passing a function as a prop or using it within a component without proper handling.
+
+Here's an example to illustrate this common mistake:
+
+```jsx
+const MyComponent = () => {
+  const handleClick = () => {
+    console.log('Button clicked!');
+  };
+
+  return (
+    <div>
+      <button onClick={handleClick}>Click Me</button>
+    </div>
+  );
+};
+```
+
+In this example, the `handleClick` function is passed as the `onClick` event handler for the button. However, if the `handleClick` function is defined within the component, it will be redefined every time the component renders. This means that a new instance of the function will be created on each render, causing unnecessary re-renders and potential performance issues.
+
+To avoid this mistake, you can use the `useCallback` hook to memoize the function and ensure that it is only created once and not recreated on every render:
+
+```jsx
+import React, { useCallback } from 'react';
+
+const MyComponent = () => {
+  const handleClick = useCallback(() => {
+    console.log('Button clicked!');
+  }, []);
+
+  return (
+    <div>
+      <button onClick={handleClick}>Click Me</button>
+    </div>
+  );
+};
+```
+
+By using `useCallback` and providing an empty dependency array (`[]`), the function will be memoized and remain the same across renders unless one of the dependencies changes. This ensures that the function is not recreated unnecessarily and avoids potential performance issues.
+
+It's important to be mindful of function invocations and ensure that functions are not inadvertently called on every render when passing them as props or using them within components.
+
+
+Question 63: Is the `lazy` function in React supports named exports?
+
+Answer:
+Yes, the `lazy` function in React supports named exports. The `lazy` function is used for lazy loading components in React, which means that the component is loaded asynchronously only when it is actually needed.
+
+When using the `lazy` function, you can import a module that contains the component using either the default export or named exports syntax. Here's an example:
+
+```jsx
+const MyLazyComponent = React.lazy(() => import('./MyComponent'));
+```
+
+In this example, the `MyComponent` component is imported using the `import()` function, and the `lazy` function wraps the import statement. The `import()` function allows for both default and named exports to be imported.
+
+If the component is exported as a default export, you can access it using the `default` property:
+
+```jsx
+const MyLazyComponent = React.lazy(() => import('./MyComponent'));
+
+// Inside the render method
+return (
+  <React.Suspense fallback={<div>Loading...</div>}>
+    <MyLazyComponent />
+  </React.Suspense>
+);
+```
+
+If the component is exported as a named export, you can access it using the desired name:
+
+```jsx
+const { MyNamedComponent } = React.lazy(() => import('./MyComponent'));
+
+// Inside the render method
+return (
+  <React.Suspense fallback={<div>Loading...</div>}>
+    <MyNamedComponent />
+  </React.Suspense>
+);
+```
+
+In both cases, the `lazy` function allows you to dynamically load and render the component only when it is needed, improving the initial loading performance of your application.
+
+
+Question 64: Why does React use `className` over the `class` attribute?
+
+Answer:
+React uses the `className` attribute instead of the traditional `class` attribute to define CSS classes for elements. This is because `class` is a reserved keyword in JavaScript, and using it as an attribute name in JSX could lead to conflicts and syntax errors.
+
+In JSX, attributes are written using camelCase syntax, which is the convention for naming variables and properties in JavaScript. Therefore, the attribute for defining CSS classes is named `className` to align with this naming convention.
+
+Here's an example to illustrate the usage of `className` in React:
+
+```jsx
+const MyComponent = () => {
+  return <div className="my-class">Hello, World!</div>;
+};
+```
+
+In this example, the `className` attribute is used to assign the CSS class `my-class` to the `<div>` element.
+
+By using `className` instead of `class`, React ensures that the code remains valid and adheres to JavaScript syntax rules. It also helps avoid any confusion or conflicts with the `class` keyword in JavaScript.
+
+It's worth noting that when the JSX code is transpiled into JavaScript, the `className` attribute is converted to the `class` attribute that is recognized by the HTML and CSS standards.
+
+
+Question 65: What are fragments in React?
+
+Answer:
+Fragments in React provide a way to group multiple elements together without adding an additional wrapper element to the DOM. Fragments are useful when you want to return multiple elements from a component's render method without introducing unnecessary div or span elements.
+
+In React, you can use fragments by using the `<React.Fragment>` syntax or the shorthand syntax `<>` and `</>`.
+
+Here's an example of using fragments in React:
+
+```jsx
+const MyComponent = () => {
+  return (
+    <>
+      <h1>Title</h1>
+      <p>Paragraph 1</p>
+      <p>Paragraph 2</p>
+    </>
+  );
+};
+```
+
+In this example, the `<h1>`, `<p>`, and `<p>` elements are wrapped inside the fragment. When the component is rendered, the elements inside the fragment will be treated as separate elements without any additional wrapper element.
+
+Fragments are particularly useful when you need to return multiple elements within a mapping or looping operation. Instead of introducing an additional wrapping element, you can use fragments to keep the markup clean and avoid unnecessary nesting.
+
+Additionally, fragments don't produce any extra DOM nodes, which helps improve performance and avoids potential styling or layout issues caused by additional wrapper elements.
+
+
+   
+
+Question 1: How is React Router different from the history library?
+
+Answer:
+React Router is a popular library in the React ecosystem that provides routing capabilities for single-page applications. It is built on top of the history library, which is a JavaScript library that abstracts the manipulation of the browser's history API.
+
+While the history library focuses on managing the browser's history stack and providing an API for programmatic navigation, React Router builds on top of it to provide a higher-level routing solution specifically designed for React applications.
+
+React Router extends the functionality of the history library by providing components and APIs that allow you to define routes, handle navigation, and render different components based on the current URL. It offers features like nested routes, route matching, route parameters, and query parameters.
+
+In summary, React Router is a higher-level library that uses the history library underneath to handle browser history manipulation and provides additional routing features tailored for React applications.
+
+
+Question 2: What are the `<Router>` components of React Router v4?
+
+Answer:
+In React Router v4, the `<Router>` component is the root component that enables routing in a React application. React Router v4 introduces a new approach to routing where different types of routers are used based on the environment or platform in which the application is running.
+
+Here are the different `<Router>` components available in React Router v4:
+
+1. `<BrowserRouter>`: This router should be used when your application is running in a web browser environment. It uses the HTML5 History API to manipulate the browser's URL and provide a history object for navigation.
+
+2. `<HashRouter>`: This router should be used when you are deploying your application to a static server or when you want to support older browsers that do not have support for the HTML5 History API. It uses the URL hash fragment to manage the application's routing.
+
+3. `<MemoryRouter>`: This router should be used when you want to keep the navigation history in memory instead of manipulating the browser's URL. It is useful for testing, server-side rendering, or scenarios where the browser's URL should not change.
+
+4. `<NativeRouter>`: This router should be used when you are building a React Native application. It uses the native routing capabilities of the platform, such as the navigation stack in iOS or Android.
+
+Each of these routers wraps your application's components and provides the necessary routing functionality based on the specific environment or platform.
+
+Here's an example of using the `<BrowserRouter>` component:
+
+```jsx
+import React from 'react';
+import { BrowserRouter, Route } from 'react-router-dom';
+
+const App = () => {
+  return (
+    <BrowserRouter>
+      <Route exact path="/" component={Home} />
+      <Route path="/about" component={About} />
+    </BrowserRouter>
+  );
+};
+
+export default App;
+```
+
+In this example, the `<BrowserRouter>` component wraps the `<Route>` components and enables routing in the application.
+
+
+Question 3: What is the purpose of the `push` and `replace` methods of history?
+
+Answer:
+In React Router, the `push` and `replace` methods are part of the `history` object, which is provided by the underlying history library. These methods are used to manipulate the browser's history stack and navigate programmatically within the application.
+
+The `push` method is used to add a new entry to the history stack. It takes a new location object as an argument and pushes it onto the stack, causing the browser to navigate to the specified URL. This creates a new entry in the browser's history, allowing the user to navigate back to the previous page using the browser's back button.
+
+Here's an example of using the `push` method:
+
+```jsx
+import { useHistory } from 'react-router-dom';
+
+const MyComponent = () => {
+  const history = useHistory();
+
+  const handleClick = () => {
+    history.push('/new-page');
+  };
+
+  return (
+    <button onClick={handleClick}>Go to New Page</button>
+  );
+};
+```
+
+In this example, when the button is clicked, the `push` method is called with the `/new-page` location, which adds a new entry to the history stack and navigates the user to the `/new-page` URL.
+
+The `replace` method, on the other hand, replaces the current entry in the history stack with a new entry. It also takes a location object as an argument and replaces the current URL in the history stack with the specified URL. This is useful when you want to update the URL without creating a new entry in the history stack.
+
+Here's an example of using the `replace` method:
+
+```jsx
+import { useHistory } from 'react-router-dom';
+
+const MyComponent = () => {
+  const history = useHistory();
+
+  const handleClick = () => {
+    history.replace('/new-page');
+  };
+
+  return (
+    <button onClick={handleClick}>Go to New Page</button>
+  );
+};
+```
+
+In this example, when the button is clicked, the `replace` method is called with the `/new-page` location, which replaces the current URL in the history stack with the `/new-page` URL.
+
+Both the `push` and `replace` methods are powerful tools for programmatic navigation in React Router, allowing you to control the navigation flow and manage the history stack within your application.
+
+
+Question 4: How do you programmatically navigate using React Router v4?
+
+Answer:
+In React Router v4, you can programmatically navigate to different routes using the `history` object provided by the underlying history library. The `history` object contains methods like `push`, `replace`, and `go` that allow you to navigate within your application.
+
+To access the `history` object in your components, you can use the `useHistory` hook from the `react-router-dom` package or access it through the `this.props.history` object in class components.
+
+Here's an example of how to programmatically navigate using React Router v4:
+
+```jsx
+import { useHistory } from 'react-router-dom';
+
+const MyComponent = () => {
+  const history = useHistory();
+
+  const handleButtonClick = () => {
+    history.push('/new-route'); // Navigate to '/new-route'
+  };
+
+  return (
+    <button onClick={handleButtonClick}>Go to New Route</button>
+  );
+};
+```
+
+In this example, when the button is clicked, the `handleButtonClick` function is called, which uses the `push` method of the `history` object to navigate to the `/new-route` URL.
+
+You can also use the `replace` method if you want to replace the current entry in the history stack instead of adding a new one. Additionally, the `go` method allows you to navigate back or forward a specific number of steps in the history stack.
+
+Programmatic navigation is useful when you need to handle navigation based on user interactions, form submissions, or other dynamic conditions within your application.
+
+
+Question 5: How to get query parameters in React Router v4?
+
+Answer:
+In React Router v4, you can retrieve query parameters from the URL using the `useLocation` hook from the `react-router-dom` package or accessing `this.props.location` object in class components.
+
+Here's an example of how to get query parameters in React Router v4 using the `useLocation` hook:
+
+```jsx
+import { useLocation } from 'react-router-dom';
+
+const MyComponent = () => {
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+
+  // Access individual query parameters
+  const id = queryParams.get('id');
+  const name = queryParams.get('name');
+
+  return (
+    <div>
+      <p>ID: {id}</p>
+      <p>Name: {name}</p>
+    </div>
+  );
+};
+```
+
+In this example, the `useLocation` hook is used to access the current location object, which contains the query parameters in the `search` property. We can then create a new `URLSearchParams` object from the `search` property to conveniently access individual query parameters using the `get` method.
+
+For example, if the URL is `/my-component?id=123&name=John`, the `id` and `name` query parameters will be extracted and displayed in the component.
+
+In class components, you can access the query parameters using `this.props.location.search` and perform similar parsing using the `URLSearchParams` object.
+
+Query parameters are often used to pass additional data or configuration to a specific route in your application, allowing for dynamic behavior based on the URL.
+
+
+Question 6: Why do you get a "Router may have only one child element" warning?
+
+Answer:
+In React Router, the "Router may have only one child element" warning occurs when you have multiple child elements directly under the router component. This warning is there to ensure that there is a single root element under the router, as the router can only have one child component.
+
+The router component, such as `<BrowserRouter>` or `<HashRouter>`, is responsible for managing the routing functionality and rendering the appropriate components based on the current URL. It expects to have a single child element that represents the routes of your application.
+
+Here's an example of how to properly structure your router with a single child element:
+
+```jsx
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
+
+const App = () => {
+  return (
+    <BrowserRouter>
+      <Switch>
+        <Route exact path="/" component={Home} />
+        <Route path="/about" component={About} />
+        <Route path="/contact" component={Contact} />
+      </Switch>
+    </BrowserRouter>
+  );
+};
+```
+
+In this example, the `<BrowserRouter>` component wraps the `<Switch>` component, which in turn contains the individual `<Route>` components as its children. The `<Switch>` component ensures that only the first matching route is rendered and prevents multiple routes from being matched.
+
+By properly nesting your routes within a single child element of the router component, you can avoid the "Router may have only one child element" warning.
+
+If you have any further questions, feel free to ask.
+
+
+Question 7: How to pass params to `history.push` method in React Router v4?
+
+Answer:
+In React Router v4, you can pass params to the `history.push` method by providing an object as the second argument. This object represents the state that will be passed along with the navigation.
+
+Here's an example of how to pass params to the `history.push` method:
+
+```jsx
+import { useHistory } from 'react-router-dom';
+
+const MyComponent = () => {
+  const history = useHistory();
+
+  const handleButtonClick = () => {
+    const params = { id: 123, name: 'John' };
+    history.push('/new-route', params);
+  };
+
+  return (
+    <button onClick={handleButtonClick}>Go to New Route</button>
+  );
+};
+```
+
+In this example, when the button is clicked, the `handleButtonClick` function is called. We create a `params` object with the desired parameters, such as `id` and `name`. Then, we pass the `'/new-route'` as the target route and the `params` object as the second argument to the `push` method.
+
+When the navigation occurs, the params will be passed to the target route and can be accessed using the appropriate mechanism in React Router, such as the `useParams` hook or `this.props.match.params` in class components.
+
+It's important to note that the params passed via `history.push` are not query parameters in the URL, but rather data associated with the navigation state. If you want to use query parameters, you can include them in the URL itself.
+
+
+Question 8: How to implement a default or NotFound page in React Router?
+
+Answer:
+To implement a default or NotFound page in React Router, you can create a `<Switch>` component and place it at the end of your route configuration. The `<Switch>` component renders the first child `<Route>` that matches the current location, and if no `<Route>` matches, it renders the component specified for the `default` prop or a NotFound component.
+
+Here's an example of how to implement a default or NotFound page:
+
+```jsx
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
+
+const Home = () => <h1>Home Page</h1>;
+const About = () => <h1>About Page</h1>;
+const NotFound = () => <h1>404 - Page Not Found</h1>;
+
+const App = () => {
+  return (
+    <BrowserRouter>
+      <Switch>
+        <Route exact path="/" component={Home} />
+        <Route path="/about" component={About} />
+        <Route component={NotFound} />
+      </Switch>
+    </BrowserRouter>
+  );
+};
+```
+
+In this example, we have defined routes for the Home and About pages using the `<Route>` component. The `exact` prop ensures that the Home component is rendered only when the path exactly matches `/`. The NotFound component is specified as the last route without a specific path, so it acts as the default page when no other route matches.
+
+If none of the defined routes match the current location, the NotFound component will be rendered.
+
+By using the `<Switch>` component and placing the NotFound route at the end, you can handle cases where the requested route doesn't exist and display a custom NotFound page or any other default content.
+
+
+Question 9: How to get `history` on React Router v4?
+
+Answer:
+In React Router v4, you can get access to the `history` object using the `useHistory` hook from the `react-router-dom` package or by accessing `this.props.history` in class components.
+
+Here's an example of how to get the `history` object using the `useHistory` hook:
+
+```jsx
+import { useHistory } from 'react-router-dom';
+
+const MyComponent = () => {
+  const history = useHistory();
+
+  const handleButtonClick = () => {
+    history.push('/new-route');
+  };
+
+  return (
+    <button onClick={handleButtonClick}>Go to New Route</button>
+  );
+};
+```
+
+In this example, the `useHistory` hook is used to access the `history` object, which provides methods for programmatically navigating to different routes. We can use the `push` method of the `history` object to navigate to the `/new-route` when the button is clicked.
+
+In class components, you can access the `history` object using `this.props.history`. For example:
+
+```jsx
+class MyComponent extends React.Component {
+  handleButtonClick = () => {
+    this.props.history.push('/new-route');
+  };
+
+  render() {
+    return (
+      <button onClick={this.handleButtonClick}>Go to New Route</button>
+    );
+  }
+}
+```
+
+In both cases, you can use the `push` method of the `history` object to navigate to a new route. The `history` object also provides other methods such as `replace` for replacing the current route and `goBack` for going back to the previous route in the history stack.
+
+
+Question 10: How to perform an automatic redirect after login in React?
+
+Answer:
+To perform an automatic redirect after login in React, you can make use of the `history` object or the `Redirect` component provided by React Router.
+
+Here's an example of how to perform an automatic redirect after login using the `history` object:
+
+```jsx
+import { useHistory } from 'react-router-dom';
+
+const LoginPage = () => {
+  const history = useHistory();
+
+  const handleLogin = () => {
+    // Perform login logic
+
+    // Redirect to the desired route after login
+    history.push('/dashboard');
+  };
+
+  return (
+    <div>
+      <h1>Login Page</h1>
+      <button onClick={handleLogin}>Login</button>
+    </div>
+  );
+};
+```
+
+In this example, the `useHistory` hook is used to access the `history` object. After the login logic is successful, the `handleLogin` function is called, and the `history.push` method is used to redirect the user to the `/dashboard` route.
+
+Alternatively, you can also use the `Redirect` component from React Router to achieve the same result:
+
+```jsx
+import { Redirect } from 'react-router-dom';
+
+const LoginPage = ({ isLoggedIn }) => {
+  const handleLogin = () => {
+    // Perform login logic
+  };
+
+  if (isLoggedIn) {
+    return <Redirect to="/dashboard" />;
+  }
+
+  return (
+    <div>
+      <h1>Login Page</h1>
+      <button onClick={handleLogin}>Login</button>
+    </div>
+  );
+};
+```
+
+In this example, the `isLoggedIn` prop is used to determine whether the user is already logged in. If the user is logged in, the `Redirect` component is rendered, and the user is automatically redirected to the `/dashboard` route.
+
+By utilizing either the `history` object or the `Redirect` component, you can implement an automatic redirect after login in your React application.
+
+
+<div align="center">
+  <h2> React Testing </h2>
+</div>
+
+<div align="center">
+  <h2> React Redux </h2>
+</div>
+
+<div align="center">
+  <h2> React Native </h2>
+</div>
+
+<div align="center">
+  <h2> React supported libraries and Integration </h2>
+</div>
