@@ -2907,11 +2907,13 @@ Fragments are particularly useful when you need to return multiple elements with
 Additionally, fragments don't produce any extra DOM nodes, which helps improve performance and avoids potential styling or layout issues caused by additional wrapper elements.
 
 
+<div align="center">
+  <h2> React Router </h2>
+</div>
    
+## Question 1: How is React Router different from the history library?
 
-Question 1: How is React Router different from the history library?
-
-Answer:
+### Answer:
 React Router is a popular library in the React ecosystem that provides routing capabilities for single-page applications. It is built on top of the history library, which is a JavaScript library that abstracts the manipulation of the browser's history API.
 
 While the history library focuses on managing the browser's history stack and providing an API for programmatic navigation, React Router builds on top of it to provide a higher-level routing solution specifically designed for React applications.
@@ -2921,47 +2923,15 @@ React Router extends the functionality of the history library by providing compo
 In summary, React Router is a higher-level library that uses the history library underneath to handle browser history manipulation and provides additional routing features tailored for React applications.
 
 
-Question 2: What are the `<Router>` components of React Router v4?
+## Question 2: What are the `<Router>` components of React Router v6?
 
-Answer:
-In React Router v4, the `<Router>` component is the root component that enables routing in a React application. React Router v4 introduces a new approach to routing where different types of routers are used based on the environment or platform in which the application is running.
-
-Here are the different `<Router>` components available in React Router v4:
-
-1. `<BrowserRouter>`: This router should be used when your application is running in a web browser environment. It uses the HTML5 History API to manipulate the browser's URL and provide a history object for navigation.
-
-2. `<HashRouter>`: This router should be used when you are deploying your application to a static server or when you want to support older browsers that do not have support for the HTML5 History API. It uses the URL hash fragment to manage the application's routing.
-
-3. `<MemoryRouter>`: This router should be used when you want to keep the navigation history in memory instead of manipulating the browser's URL. It is useful for testing, server-side rendering, or scenarios where the browser's URL should not change.
-
-4. `<NativeRouter>`: This router should be used when you are building a React Native application. It uses the native routing capabilities of the platform, such as the navigation stack in iOS or Android.
-
-Each of these routers wraps your application's components and provides the necessary routing functionality based on the specific environment or platform.
-
-Here's an example of using the `<BrowserRouter>` component:
-
-```jsx
-import React from 'react';
-import { BrowserRouter, Route } from 'react-router-dom';
-
-const App = () => {
-  return (
-    <BrowserRouter>
-      <Route exact path="/" component={Home} />
-      <Route path="/about" component={About} />
-    </BrowserRouter>
-  );
-};
-
-export default App;
-```
-
-In this example, the `<BrowserRouter>` component wraps the `<Route>` components and enables routing in the application.
+### Answer:
+[React Router Version-6 Blog](https://blog.webdevsimplified.com/2022-07/react-router/)
 
 
-Question 3: What is the purpose of the `push` and `replace` methods of history?
+## Question 3: What is the purpose of the `push` and `replace` methods of history?
 
-Answer:
+### Answer:
 In React Router, the `push` and `replace` methods are part of the `history` object, which is provided by the underlying history library. These methods are used to manipulate the browser's history stack and navigate programmatically within the application.
 
 The `push` method is used to add a new entry to the history stack. It takes a new location object as an argument and pushes it onto the stack, causing the browser to navigate to the specified URL. This creates a new entry in the browser's history, allowing the user to navigate back to the previous page using the browser's back button.
@@ -3011,140 +2981,19 @@ In this example, when the button is clicked, the `replace` method is called with
 Both the `push` and `replace` methods are powerful tools for programmatic navigation in React Router, allowing you to control the navigation flow and manage the history stack within your application.
 
 
-Question 4: How do you programmatically navigate using React Router v4?
+## Question 4: How do you programmatically navigate using React Router v6?
 
-Answer:
-In React Router v4, you can programmatically navigate to different routes using the `history` object provided by the underlying history library. The `history` object contains methods like `push`, `replace`, and `go` that allow you to navigate within your application.
+### Answer:
+[React Router Version-6 Blog](https://blog.webdevsimplified.com/2022-07/react-router/)
 
-To access the `history` object in your components, you can use the `useHistory` hook from the `react-router-dom` package or access it through the `this.props.history` object in class components.
+## Question 5: How to get query parameters in React Router v6?
 
-Here's an example of how to programmatically navigate using React Router v4:
+### Answer:
+[React Router Version-6 Blog](https://blog.webdevsimplified.com/2022-07/react-router/)
 
-```jsx
-import { useHistory } from 'react-router-dom';
+## Question 6: How to implement a default or NotFound page in React Router?
 
-const MyComponent = () => {
-  const history = useHistory();
-
-  const handleButtonClick = () => {
-    history.push('/new-route'); // Navigate to '/new-route'
-  };
-
-  return (
-    <button onClick={handleButtonClick}>Go to New Route</button>
-  );
-};
-```
-
-In this example, when the button is clicked, the `handleButtonClick` function is called, which uses the `push` method of the `history` object to navigate to the `/new-route` URL.
-
-You can also use the `replace` method if you want to replace the current entry in the history stack instead of adding a new one. Additionally, the `go` method allows you to navigate back or forward a specific number of steps in the history stack.
-
-Programmatic navigation is useful when you need to handle navigation based on user interactions, form submissions, or other dynamic conditions within your application.
-
-
-Question 5: How to get query parameters in React Router v4?
-
-Answer:
-In React Router v4, you can retrieve query parameters from the URL using the `useLocation` hook from the `react-router-dom` package or accessing `this.props.location` object in class components.
-
-Here's an example of how to get query parameters in React Router v4 using the `useLocation` hook:
-
-```jsx
-import { useLocation } from 'react-router-dom';
-
-const MyComponent = () => {
-  const location = useLocation();
-  const queryParams = new URLSearchParams(location.search);
-
-  // Access individual query parameters
-  const id = queryParams.get('id');
-  const name = queryParams.get('name');
-
-  return (
-    <div>
-      <p>ID: {id}</p>
-      <p>Name: {name}</p>
-    </div>
-  );
-};
-```
-
-In this example, the `useLocation` hook is used to access the current location object, which contains the query parameters in the `search` property. We can then create a new `URLSearchParams` object from the `search` property to conveniently access individual query parameters using the `get` method.
-
-For example, if the URL is `/my-component?id=123&name=John`, the `id` and `name` query parameters will be extracted and displayed in the component.
-
-In class components, you can access the query parameters using `this.props.location.search` and perform similar parsing using the `URLSearchParams` object.
-
-Query parameters are often used to pass additional data or configuration to a specific route in your application, allowing for dynamic behavior based on the URL.
-
-
-Question 6: Why do you get a "Router may have only one child element" warning?
-
-Answer:
-In React Router, the "Router may have only one child element" warning occurs when you have multiple child elements directly under the router component. This warning is there to ensure that there is a single root element under the router, as the router can only have one child component.
-
-The router component, such as `<BrowserRouter>` or `<HashRouter>`, is responsible for managing the routing functionality and rendering the appropriate components based on the current URL. It expects to have a single child element that represents the routes of your application.
-
-Here's an example of how to properly structure your router with a single child element:
-
-```jsx
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
-
-const App = () => {
-  return (
-    <BrowserRouter>
-      <Switch>
-        <Route exact path="/" component={Home} />
-        <Route path="/about" component={About} />
-        <Route path="/contact" component={Contact} />
-      </Switch>
-    </BrowserRouter>
-  );
-};
-```
-
-In this example, the `<BrowserRouter>` component wraps the `<Switch>` component, which in turn contains the individual `<Route>` components as its children. The `<Switch>` component ensures that only the first matching route is rendered and prevents multiple routes from being matched.
-
-By properly nesting your routes within a single child element of the router component, you can avoid the "Router may have only one child element" warning.
-
-If you have any further questions, feel free to ask.
-
-
-Question 7: How to pass params to `history.push` method in React Router v4?
-
-Answer:
-In React Router v4, you can pass params to the `history.push` method by providing an object as the second argument. This object represents the state that will be passed along with the navigation.
-
-Here's an example of how to pass params to the `history.push` method:
-
-```jsx
-import { useHistory } from 'react-router-dom';
-
-const MyComponent = () => {
-  const history = useHistory();
-
-  const handleButtonClick = () => {
-    const params = { id: 123, name: 'John' };
-    history.push('/new-route', params);
-  };
-
-  return (
-    <button onClick={handleButtonClick}>Go to New Route</button>
-  );
-};
-```
-
-In this example, when the button is clicked, the `handleButtonClick` function is called. We create a `params` object with the desired parameters, such as `id` and `name`. Then, we pass the `'/new-route'` as the target route and the `params` object as the second argument to the `push` method.
-
-When the navigation occurs, the params will be passed to the target route and can be accessed using the appropriate mechanism in React Router, such as the `useParams` hook or `this.props.match.params` in class components.
-
-It's important to note that the params passed via `history.push` are not query parameters in the URL, but rather data associated with the navigation state. If you want to use query parameters, you can include them in the URL itself.
-
-
-Question 8: How to implement a default or NotFound page in React Router?
-
-Answer:
+### Answer:
 To implement a default or NotFound page in React Router, you can create a `<Switch>` component and place it at the end of your route configuration. The `<Switch>` component renders the first child `<Route>` that matches the current location, and if no `<Route>` matches, it renders the component specified for the `default` prop or a NotFound component.
 
 Here's an example of how to implement a default or NotFound page:
@@ -3176,53 +3025,9 @@ If none of the defined routes match the current location, the NotFound component
 By using the `<Switch>` component and placing the NotFound route at the end, you can handle cases where the requested route doesn't exist and display a custom NotFound page or any other default content.
 
 
-Question 9: How to get `history` on React Router v4?
+## Question 7: How to perform an automatic redirect after login in React?
 
-Answer:
-In React Router v4, you can get access to the `history` object using the `useHistory` hook from the `react-router-dom` package or by accessing `this.props.history` in class components.
-
-Here's an example of how to get the `history` object using the `useHistory` hook:
-
-```jsx
-import { useHistory } from 'react-router-dom';
-
-const MyComponent = () => {
-  const history = useHistory();
-
-  const handleButtonClick = () => {
-    history.push('/new-route');
-  };
-
-  return (
-    <button onClick={handleButtonClick}>Go to New Route</button>
-  );
-};
-```
-
-In this example, the `useHistory` hook is used to access the `history` object, which provides methods for programmatically navigating to different routes. We can use the `push` method of the `history` object to navigate to the `/new-route` when the button is clicked.
-
-In class components, you can access the `history` object using `this.props.history`. For example:
-
-```jsx
-class MyComponent extends React.Component {
-  handleButtonClick = () => {
-    this.props.history.push('/new-route');
-  };
-
-  render() {
-    return (
-      <button onClick={this.handleButtonClick}>Go to New Route</button>
-    );
-  }
-}
-```
-
-In both cases, you can use the `push` method of the `history` object to navigate to a new route. The `history` object also provides other methods such as `replace` for replacing the current route and `goBack` for going back to the previous route in the history stack.
-
-
-Question 10: How to perform an automatic redirect after login in React?
-
-Answer:
+### Answer:
 To perform an automatic redirect after login in React, you can make use of the `history` object or the `Redirect` component provided by React Router.
 
 Here's an example of how to perform an automatic redirect after login using the `history` object:
