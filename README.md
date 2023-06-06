@@ -2388,9 +2388,9 @@ The key difference between `createElement` and `cloneElement` is that `createEle
 It's worth noting that `createElement` is typically used when writing JSX code, as JSX transpiles to calls to `createElement` under the hood. On the other hand, `cloneElement` is a method explicitly provided by React for manipulating existing elements.
 
 
-Question 51: What is Lifting State Up in React?
+## Question 51: What is Lifting State Up in React?
 
-Answer:
+### Answer:
 Lifting State Up is a pattern in React where you move the state from a child component to its parent component. By doing so, you can share and manipulate the state between multiple child components and keep the state in a common ancestor.
 
 The main motivation behind Lifting State Up is to create a single source of truth for the shared state. Instead of each child component managing its own state independently, the parent component becomes responsible for managing the state and passing it down to the child components via props.
@@ -2429,24 +2429,24 @@ By lifting the state up to the parent component, any changes to the state will b
 Lifting State Up promotes a more predictable and maintainable data flow in your React application, especially when multiple components need access to the same state or when you need to perform state updates based on interactions between different components.
 
 
-Question 52: What are the different phases of the component lifecycle in React?
+## Question 52: What are the different phases of the component lifecycle in React?
 
-Answer:
+### Answer:
 In React, the component lifecycle consists of several phases that a component goes through from its creation to its removal from the DOM. These phases allow you to hook into different stages of a component's lifecycle and perform certain actions or implement specific behavior. The component lifecycle can be divided into three main phases:
 
-1. Mounting:
+1. **Mounting:**
    - `constructor()`: This is the first method called when a component is created. It is used for initializing state and binding event handlers.
    - `static getDerivedStateFromProps()`: This method is called right before rendering and allows you to update the component's state based on changes in props.
    - `render()`: This method is responsible for rendering the component's JSX representation.
    - `componentDidMount()`: This method is called after the component has been mounted in the DOM. It is used for performing side effects, such as fetching data from an API or subscribing to external events.
 
-2. Updating:
+2. **Updating:**
    - `static getDerivedStateFromProps()`: This method is also called during the updating phase, similar to the mounting phase.
    - `shouldComponentUpdate()`: This method allows you to control whether the component should re-render or not. It is used for performance optimization by preventing unnecessary re-renders.
    - `render()`: The render method is called again to update the component's JSX representation.
    - `componentDidUpdate()`: This method is called after the component has been updated in the DOM. It is used for performing side effects or handling updates based on prop or state changes.
 
-3. Unmounting:
+3. **Unmounting:**
    - `componentWillUnmount()`: This method is called right before the component is removed from the DOM. It is used for cleaning up resources, such as cancelling timers or removing event listeners.
 
 In addition to these main lifecycle methods, React also provides other methods for handling specific scenarios or edge cases, such as error handling (`componentDidCatch()`) and interacting with the DOM (`getSnapshotBeforeUpdate()`).
@@ -2456,28 +2456,28 @@ It's important to note that with the introduction of React Hooks, some of these 
 Understanding the component lifecycle helps you manage and control the behavior of your components at different stages. It allows you to handle initialization, updates, and cleanup operations effectively.
 
 
-Question 53: What are the lifecycle methods of React?
+## Question 53: What are the lifecycle methods of React?
 
-Answer:
+### Answer:
 React provides several lifecycle methods that allow you to hook into different stages of a component's lifecycle. However, with the introduction of React Hooks, some of these lifecycle methods are considered legacy and have been replaced by equivalent functionality using hooks. Here are the commonly used lifecycle methods in React:
 
-1. Mounting Phase:
+1. **Mounting Phase:**
    - `constructor()`: This method is called when a component is being initialized. It is used for setting up the initial state and binding event handlers.
    - `static getDerivedStateFromProps()`: This static method is called right before rendering and allows you to update the state based on changes in props.
    - `render()`: This method is responsible for rendering the component's JSX representation.
    - `componentDidMount()`: This method is called after the component has been mounted in the DOM. It is used for performing side effects, such as fetching data from an API or subscribing to external events.
 
-2. Updating Phase:
+2. **Updating Phase:**
    - `static getDerivedStateFromProps()`: This method is also called during the updating phase, similar to the mounting phase.
    - `shouldComponentUpdate()`: This method is used to control whether the component should re-render or not. It is used for performance optimization.
    - `render()`: The render method is called again to update the component's JSX representation.
    - `getSnapshotBeforeUpdate()`: This method is called right before the changes are committed to the DOM. It allows you to capture some information from the DOM before it is potentially changed.
    - `componentDidUpdate()`: This method is called after the component has been updated in the DOM. It is used for performing side effects or handling updates based on prop or state changes.
 
-3. Unmounting Phase:
+3. **Unmounting Phase:**
    - `componentWillUnmount()`: This method is called right before the component is unmounted from the DOM. It is used for cleaning up resources, such as timers or event listeners.
 
-4. Error Handling:
+4. **Error Handling:**
    - `componentDidCatch()`: This method is called when an error occurs during rendering in the component's tree. It is used for error handling and displaying fallback UI.
 
 It's important to note that with React Hooks, you can achieve similar functionality as these lifecycle methods using hooks like `useState`, `useEffect`, `useContext`, etc.
@@ -2485,9 +2485,9 @@ It's important to note that with React Hooks, you can achieve similar functional
 Remember that some lifecycle methods are considered legacy and may not be necessary in modern React applications. It's recommended to use hooks and functional components whenever possible.
 
 
-Question 54: What are Higher-Order Components (HOCs)?
+## Question 54: What are Higher-Order Components (HOCs)?
 
-Answer:
+### Answer:
 Higher-Order Components (HOCs) are a pattern in React that allows you to reuse component logic by wrapping a component with a function that returns a new enhanced component. HOCs are not part of the React API, but rather a design pattern made possible by the compositional nature of React components.
 
 The basic idea of HOCs is to take an existing component and enhance it with additional capabilities or behavior. This pattern promotes reusability and separation of concerns by isolating specific functionality into separate HOCs.
@@ -2524,9 +2524,9 @@ HOCs can be used to add common functionalities such as authentication, data fetc
 It's worth noting that with the introduction of React Hooks, you can achieve similar functionality as HOCs using custom hooks. Hooks provide a more straightforward and declarative way to reuse component logic within functional components.
 
 
-Question 55: How to create a props proxy for an HOC (Higher-Order Component)?
+## Question 55: How to create a props proxy for an HOC (Higher-Order Component)?
 
-Answer:
+### Answer:
 When creating a Higher-Order Component (HOC), you may want to pass additional props to the wrapped component while preserving the existing props. This can be achieved by creating a props proxy for the HOC.
 
 Here's an example of how you can create a props proxy for an HOC:
@@ -2563,9 +2563,9 @@ The props proxy pattern allows you to extend the props of a component without mo
 Props proxies can be useful when you want to add common functionality or behaviors to multiple components while allowing them to retain their own set of props.
 
 
-Question 56: What is context in React?
+## Question 56: What is context in React?
 
-Answer:
+### Answer:
 Context is an experimental feature in React that allows you to share data between components without passing props manually through every level of the component tree. It provides a way to access global or shared data by creating a "context" object that can be accessed by any component within its tree.
 
 With context, you can define data at the top level of your component tree and make it available to any component that needs it, regardless of the component's depth in the tree.
@@ -2605,9 +2605,9 @@ By using context, you can avoid "prop drilling" where props are passed through m
 It's important to note that context should be used judiciously, as excessive use of context can make your component tree more complex and harder to understand. Context is best suited for sharing data that is truly global or shared by a significant number of components.
 
 
-Question 57: What is the `children` prop in React?
+## Question 57: What is the `children` prop in React?
 
-Answer:
+### Answer:
 In React, the `children` prop is a special prop that allows you to pass components, elements, or text as children to a parent component. It is a built-in prop that is automatically passed by React when you use opening and closing tags in JSX.
 
 Here's an example to illustrate how the `children` prop works:
@@ -2642,22 +2642,22 @@ It's worth noting that the `children` prop is not limited to JSX elements. It ca
 If a component does not have any explicit opening and closing tags in JSX, the `children` prop will be `undefined`. Therefore, it's important to handle the case where the `children` prop is not provided.
 
 
-Question 58: How to write comments in React?
+## Question 58: How to write comments in React?
 
-Answer:
+### Answer:
 In React, you can write comments using JavaScript's single-line and multi-line comment syntax. However, there is a slight difference when writing comments within JSX code.
 
 To write comments within JSX code, you need to use curly braces (`{}`) to enclose the comment, and then use JavaScript's comment syntax within the curly braces.
 
 Here are examples of how to write comments in React:
 
-1. Single-line comment:
+1. **Single-line comment:**
 
 ```jsx
 {/* This is a single-line comment */}
 ```
 
-2. Multi-line comment:
+2. **Multi-line comment:**
 
 ```jsx
 {/*
@@ -2672,9 +2672,9 @@ When rendering JSX, any comment within curly braces (`{}`) is treated as a JavaS
 It's important to note that while comments can be helpful for code documentation and readability, you should use them judiciously and ensure that they don't clutter the code unnecessarily.
 
 
-Question 59: What is the purpose of using `super` constructor with `props` argument in React?
+## Question 59: What is the purpose of using `super` constructor with `props` argument in React?
 
-Answer:
+### Answer:
 In React, when creating a class component, the `super` keyword is used to call the constructor of the parent class, which in this case is `React.Component`. The `super(props)` statement ensures that the parent class constructor is executed, allowing the component to initialize properly and have access to the `props` object.
 
 The primary purpose of using `super(props)` in the constructor is to enable the component to access and utilize the `props` object within its own constructor. By passing `props` to the `super` constructor, the `props` object is set up and made available to the component.
@@ -2701,14 +2701,14 @@ Without calling `super(props)`, the component's constructor would not have acces
 It's important to note that starting from React version 16.8, functional components and hooks have become the preferred way to write React components. With functional components, you don't need to use `super` or a constructor to access `props`, as `props` are passed as a parameter to the component function.
 
 
-Question 60: What is reconciliation in React?
+## Question 60: What is reconciliation in React?
 
-Answer:
+### Answer:
 Reconciliation is the process by which React updates the user interface (UI) to reflect the changes in the component tree. When the state or props of a component change, React compares the new component structure with the previous one and determines what updates need to be applied to the actual DOM.
 
 The reconciliation process is responsible for efficiently updating the UI and ensuring that only the necessary changes are applied, minimizing the impact on performance. React accomplishes this by performing a virtual representation of the component tree called the Virtual DOM.
 
-Here's an overview of how the reconciliation process works:
+**Here's an overview of how the reconciliation process works:**
 
 1. When a component's state or props change, React creates a new virtual representation of the updated component tree, known as the new Virtual DOM.
 
@@ -2721,9 +2721,9 @@ Here's an overview of how the reconciliation process works:
 By performing reconciliation, React optimizes the update process and ensures that the UI remains in sync with the component's state and props. This approach eliminates the need to manually update the DOM and provides a more declarative and efficient way to build user interfaces.
 
 
-Question 61: How to set state with a dynamic key name in React?
+## Question 61: How to set state with a dynamic key name in React?
 
-Answer:
+### Answer:
 In React, you can set the state with a dynamic key name by using computed property names. Computed property names allow you to use an expression inside square brackets (`[]`) to dynamically define the property name.
 
 Here's an example of setting the state with a dynamic key name:
@@ -2769,9 +2769,9 @@ By using `[name]` within the `setState` method, the state is dynamically updated
 This approach is useful when you have a form or any other scenario where you want to set the state dynamically based on user input or any other variable condition.
 
 
-Question 62: What would be the common mistake of a function being called every time the component renders?
+## Question 62: What would be the common mistake of a function being called every time the component renders?
 
-Answer:
+### Answer:
 One common mistake in React is unintentionally invoking a function every time the component renders, which can lead to performance issues or unexpected behavior. This mistake often occurs when passing a function as a prop or using it within a component without proper handling.
 
 Here's an example to illustrate this common mistake:
@@ -2815,7 +2815,7 @@ By using `useCallback` and providing an empty dependency array (`[]`), the funct
 It's important to be mindful of function invocations and ensure that functions are not inadvertently called on every render when passing them as props or using them within components.
 
 
-Question 63: Is the `lazy` function in React supports named exports?
+##Question 63: Is the `lazy` function in React supports named exports?
 
 Answer:
 Yes, the `lazy` function in React supports named exports. The `lazy` function is used for lazy loading components in React, which means that the component is loaded asynchronously only when it is actually needed.
